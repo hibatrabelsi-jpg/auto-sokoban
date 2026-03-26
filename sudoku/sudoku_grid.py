@@ -7,7 +7,7 @@ class SudokuGrid:
         self.load_file(filename)
 
     def load_file(self, filename):
-        """Importe et parse la grille [cite: 323]"""
+        "Importe et parse la grille [cite: 323]"
         with open(filename, 'r') as f:
             for line in f:
                 # On transforme '_' en 0 [cite: 39]
@@ -17,7 +17,7 @@ class SudokuGrid:
         self.initial_grid = copy.deepcopy(self.grid)
 
     def is_valid(self, row, col, n):
-        """Vérifie les contraintes de ligne, colonne et carré [cite: 7, 55]"""
+        "Vérifie les contraintes de ligne, colonne et carré [cite: 7, 55]"
         for i in range(9):
             if self.grid[row][i] == n or self.grid[i][col] == n:
                 return False
@@ -30,7 +30,7 @@ class SudokuGrid:
         return True
 
     def display_terminal(self):
-        """Affiche la grille avec distinction visuelle """
+        "Affiche la grille avec distinction visuelle "
         for r in range(9):
             if r % 3 == 0 and r != 0: print("-" * 21)
             line = ""

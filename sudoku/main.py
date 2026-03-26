@@ -3,17 +3,17 @@ import time
 
 # 1. Chargement
 grid = SudokuGrid('grille1.txt')
-print("--- Grille Initiale ---")
+print(" Grille Initiale ")
 grid.display_terminal()
 
 # 2. Tentative d'élimination logique (Bonus Personne A)
-print("\n--- Nettoyage par élimination logique ---")
+print("\n Nettoyage par élimination logique ")
 while grid.solve_logic_elimination():
     print("Une case remplie logiquement...")
 grid.display_terminal()
 
 # 3. Résolution par Force Brute (Sujet Personne A)
-print("\n--- Résolution par Force Brute ---")
+print("\nRésolution par Force Brute")
 start = time.time()
 success, total_tries = grid.solve_brute_force()
 end = time.time()
