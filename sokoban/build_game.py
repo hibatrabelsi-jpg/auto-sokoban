@@ -18,7 +18,7 @@ matrix = [
 ]
 
 def move_player(matrix, direction):
-    # 1. Trouver où est le joueur (on cherche 3 ou 5)
+    #Trouver où est le joueur (on cherche 3 ou 5)
     curr_x, curr_y = None, None
     for r in range(len(matrix)):
         for c in range(len(matrix[0])):
@@ -26,29 +26,29 @@ def move_player(matrix, direction):
                 curr_x, curr_y = r, c
                 break
     
-    # 2. Définir la direction
+    #Définir la direction
     dx, dy = 0, 0
     if direction == "UP": dx = -1
     elif direction == "DOWN": dx = 1
     elif direction == "LEFT": dy = -1
     elif direction == "RIGHT": dy = 1
 
-    # Coordonnées de la case visée (nx, ny) et de la case d'après (ax, ay)
+    #Coordonnées de la case visée (nx, ny) et de la case d'après (ax, ay)
     nx, ny = curr_x + dx, curr_y + dy
     ax, ay = nx + dx, ny + dy
 
-    # 3. Sécurité : on ne traverse pas les murs [cite: 7]
+    #Sécurité : on ne traverse pas les murs [cite: 7]
     if matrix[nx][ny] == wall:
         return matrix
 
-    # 4. Logique de déplacement
+    #Logique de déplacement
     target_cell = matrix[nx][ny]
 
-    # CAS A : On marche sur du vide ou une cible
+    #CAS A : On marche sur du vide ou une cible
     if target_cell in [empty, target]:
         update_cell(matrix, curr_x, curr_y, nx, ny)
 
-    # CAS B : On pousse une caisse [cite: 6]
+    #CAS B : On pousse une caisse [cite: 6]
     elif target_cell in [box, box_on_target]:
         # On ne peut pousser que si la case derrière est libre [cite: 7]
         if matrix[ax][ay] in [empty, target]:
@@ -78,4 +78,29 @@ def push_box(matrix, nx, ny, ax, ay):
         matrix[ax][ay] = box
     # Note : La case (nx, ny) sera remplacée par le joueur juste après dans update_cell
 
+def load_level(filename):
+    #Lit un fichier .txt et le convertit en matrice numérique.
+    # Mapping des symboles vers tes constantes numériques
+    mapping = {
+        '#': wall,
+        ' ': empty,
+        '$': box,
+        '.': target,
+        '@': player,
+        '*': box_on_target,
+        '+': player_on_target
+    }
+    
+    matrix = []
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                # On ignore les lignes vides et on convertit chaque caractère
+                row = [mapping[char] for char in line.strip('\n') if char in mapping]
+                if row:
+                    matrix.append(row)
+        return matrix
+    except FileNotFoundError:
+        print(f"Erreur : Le fichier {filename} est introuvable.")
+        return None
 
